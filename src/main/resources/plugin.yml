@@ -1,0 +1,8 @@
+name: RankSync
+version: ${project.version}
+main: net.soracraft.ranksync.RankSync
+api-version: 1.13
+prefix: RankSync
+authors: [ukiyoa @ Soracraft.net]
+description: Plugin to sync ranks between forum and in game
+website: soracraft.net

@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: org.yaml:snakeyaml:1.23">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/yaml/snakeyaml/1.23/snakeyaml-1.23.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/yaml/snakeyaml/1.23/snakeyaml-1.23-javadoc.jar!/" />
+      <root url="https://javadoc.io/doc/me.lucko.luckperms/luckperms-api/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/yaml/snakeyaml/1.23/snakeyaml-1.23-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
