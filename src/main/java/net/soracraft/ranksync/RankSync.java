@@ -149,7 +149,7 @@ public final class RankSync extends JavaPlugin implements Listener {
     }
 
     public void keepAlive() throws SQLException {
-        PreparedStatement keepAlive = connection.prepareStatement("SELECT 1 FROM PlayerData");
+        PreparedStatement keepAlive = connection.prepareStatement("SELECT 1 FROM ncms_key");
         keepAlive.executeQuery();
     }
 
@@ -196,7 +196,7 @@ public final class RankSync extends JavaPlugin implements Listener {
 
                 try {
                     statement = connection.createStatement();
-                    result = statement.executeQuery("SELECT PlayerGroup, RedeemedStatus FROM PlayerData WHERE PlayerName = '" + uuid.toString() + "';");
+                    result = statement.executeQuery("SELECT display_style_group_id, bonus_redeemed FROM xf_user WHERE ncms_uuid = '" + uuid.toString() + "';");
                 } catch (SQLException e) {
                     log.warning("Error connecting or executing lookup statement");
                     e.printStackTrace();
@@ -205,10 +205,10 @@ public final class RankSync extends JavaPlugin implements Listener {
                 try {
                     if (result.next()) {
 
-                        Integer forumGroup = result.getInt("PlayerGroup");
-                        String futureGroup = groupMap.get(forumGroup);
+                        Integer forumGroup = result.getInt("display_style_group_id");
                         String currentGroup = getPlayerGroup(player);
-                        Integer redeemedStatus = result.getInt("RedeemedStatus");
+                        String futureGroup = groupMap.get(forumGroup);
+                        Integer redeemedStatus = result.getInt("bonus_redeemed");
                         Node newGrp = api.buildNode("group." + futureGroup).setValue(true).build();
 
                         // check if their group needs to be moved
@@ -238,8 +238,9 @@ public final class RankSync extends JavaPlugin implements Listener {
                             if (redeemedStatus == 0) {
 
                                 // give key
-                                runConsole("eco give " + dName + " 5000");
-                                runConsole("cc give p sora " + dName + " 1");
+                                runConsole("eco give " + dName + " 5000"); // 5k eco
+                                runConsole("cc give p sora 1 " + dName); // sora key
+                                statement.executeUpdate("UPDATE `xf_user` SET `bonus_redeemed` = '1' WHERE `xf_user`.`ncms_uuid` = '" + uuid.toString() + "';"); // set reedeemed
                                 sendPlayerMessage(player, "Thanks for registering on our forums, here is &a$5k&7 and a bonus &e[Exotic] Sora Key&7, you can use them at &d/crates&7 and &d/shop");
 
                             }
