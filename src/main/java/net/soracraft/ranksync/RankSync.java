@@ -211,8 +211,8 @@ public final class RankSync extends JavaPlugin implements Listener {
                         Integer redeemedStatus = result.getInt("bonus_redeemed");
                         Node newGrp = api.buildNode("group." + futureGroup).setValue(true).build();
 
-                        // check if their group needs to be moved
-                        if (currentGroup != futureGroup) {
+                        // check if their group needs to be moved (skip admin and mod)
+                        if (!futureGroup.equals("admin") && !futureGroup.equals("mod") && currentGroup != futureGroup) {
 
                             // clear existing groups and then set the new group
                             user.clearParents();
