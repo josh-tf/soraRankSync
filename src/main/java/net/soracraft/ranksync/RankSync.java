@@ -237,7 +237,7 @@ public final class RankSync extends JavaPlugin implements Listener {
                             user.setPermission(newGrp);
 
                             if (sendOutput) {
-                                player.sendMessage(format("&d[&bRanks&d] &7Moving you to the new group (" + newGrp + ")"));
+                                player.sendMessage(format("&d[&bRanks&d] &7Moving you to the new group (" + futureGroup + ")"));
                             }
 
                             // Now we need to save changes.
@@ -246,12 +246,14 @@ public final class RankSync extends JavaPlugin implements Listener {
                             // send message for donator
                             if (futureGroup == "donator" || futureGroup == "supporter" || futureGroup == "emerald") {
 
+                                dName = player.getDisplayName(); // get updated display name
                                 sendBroadcast("&b" + dName + "&7 has upgraded to " + rankFormats.get(futureGroup) + "&7 rank, thank you for the support. To view info about ranks check out &d/ranks");
                                 playUpgradeSound();
 
                                 // new member, this will only fire if its their first login as a member (redeem status) otherwise it would send when a donator downgrades
                             } else if (futureGroup == "member" && redeemedStatus == 0) {
 
+                                dName = player.getDisplayName(); // get updated display name
                                 sendBroadcast("&b" + dName + "&7 has registered on our forum and has been moved to the " + rankFormats.get(futureGroup) + "&7 group, and received their rewards. To view benefits for joining (its free!) check out &d/ranks");
 
                             }
@@ -272,7 +274,7 @@ public final class RankSync extends JavaPlugin implements Listener {
                             // no action taken, just log to console
                             log.info("Checked player (" + dName + ") and groups matched (" + futureGroup + ") so no action taken");
                             if (sendOutput) {
-                                player.sendMessage(format("&d[&bRanks&d] &7Checked player (" + dName + ") and groups matched (" + futureGroup + ") so no action taken"));
+                                player.sendMessage(format("&d[&bRanks&d] &7Checked your forum account and groups matched (" + futureGroup + "&7) so no action taken"));
                             }
                         }
 
@@ -281,7 +283,7 @@ public final class RankSync extends JavaPlugin implements Listener {
                     } else {
                         log.info("Couldn't find a matching forum user for player (" + dName + ") so no action taken");
                         if (sendOutput) {
-                            player.sendMessage(format("&d[&bRanks&d] &7Couldn't find a matching forum user for player (" + dName + ") so no action taken"));
+                            player.sendMessage(format("&d[&bRanks&d] &7Couldn't find a matching forum account for you, make sure your username under your forum profile matches in game"));
                         }
                     }
                 } catch (SQLException e) {

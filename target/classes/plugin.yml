@@ -6,3 +6,7 @@ prefix: RankSync
 authors: [ukiyoa @ Soracraft.net]
 description: Plugin to sync ranks between forum and in game
 website: soracraft.net
+commands:
+  checkrank:
+    description: Manually check the players rank
+    usage: /<command> [player]
