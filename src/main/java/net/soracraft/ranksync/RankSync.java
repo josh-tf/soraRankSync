@@ -14,6 +14,8 @@ import me.lucko.luckperms.api.User;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
@@ -160,8 +162,24 @@ public final class RankSync extends JavaPlugin implements Listener {
         Player player = event.getPlayer();
 
         // do the group check
-        syncRank(player);
+        syncRank(player, false);
     }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (cmd.getName().equalsIgnoreCase("checkrank")) {
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
+                sender.sendMessage(format("&d[&bRanks&d] &7Checking your rank manually now.."));
+                syncRank(player, true);
+            } else {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
 
     public static String getPlayerGroup(Player player) {
 
@@ -183,7 +201,7 @@ public final class RankSync extends JavaPlugin implements Listener {
         return null;
     }
 
-    public void syncRank(Player player) {
+    public void syncRank(Player player, Boolean sendOutput) {
 
         BukkitRunnable r = new BukkitRunnable() {
             @Override
@@ -218,6 +236,10 @@ public final class RankSync extends JavaPlugin implements Listener {
                             user.clearParents();
                             user.setPermission(newGrp);
 
+                            if (sendOutput) {
+                                player.sendMessage(format("&d[&bRanks&d] &7Moving you to the new group (" + newGrp + ")"));
+                            }
+
                             // Now we need to save changes.
                             api.getUserManager().saveUser(user);
 
@@ -249,13 +271,18 @@ public final class RankSync extends JavaPlugin implements Listener {
 
                             // no action taken, just log to console
                             log.info("Checked player (" + dName + ") and groups matched (" + futureGroup + ") so no action taken");
-
+                            if (sendOutput) {
+                                player.sendMessage(format("&d[&bRanks&d] &7Checked player (" + dName + ") and groups matched (" + futureGroup + ") so no action taken"));
+                            }
                         }
 
 
 
                     } else {
                         log.info("Couldn't find a matching forum user for player (" + dName + ") so no action taken");
+                        if (sendOutput) {
+                            player.sendMessage(format("&d[&bRanks&d] &7Couldn't find a matching forum user for player (" + dName + ") so no action taken"));
+                        }
                     }
                 } catch (SQLException e) {
                     Bukkit.getLogger().warning("Warning with result match");
