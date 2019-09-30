@@ -230,7 +230,7 @@ public final class RankSync extends JavaPlugin implements Listener {
                         Node newGrp = api.buildNode("group." + futureGroup).setValue(true).build();
 
                         // check if their group needs to be moved (skip admin and mod)
-                        if (futureGroup.equals("admin") && futureGroup.equals("mod")) {
+                        if (futureGroup.equals("admin") || futureGroup.equals("mod")) {
                             log.info("Admin and Mod are exempt from rank check / auto rank changes (" + futureGroup + ")");
                             if (sendOutput) {
                                 player.sendMessage(format("&d[&bRanks&d] &7Admin and Mod are exempt from rank check / auto rank changes"));
