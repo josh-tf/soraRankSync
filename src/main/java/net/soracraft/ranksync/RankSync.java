@@ -209,7 +209,7 @@ public final class RankSync extends JavaPlugin implements Listener {
                 ResultSet result = null;
                 Statement statement = null;
                 UUID uuid = player.getUniqueId();
-                String dName = player.getDisplayName();
+                String dName = player.getName();
                 User user = api.getUser(uuid);
 
                 try {
@@ -251,14 +251,14 @@ public final class RankSync extends JavaPlugin implements Listener {
                             // send message for donator
                             if (futureGroup == "donator" || futureGroup == "supporter" || futureGroup == "emerald") {
 
-                                dName = player.getDisplayName(); // get updated display name
+                                dName = player.getName(); // get updated display name
                                 sendBroadcast("&b" + dName + "&7 has upgraded to " + rankFormats.get(futureGroup) + "&7 rank, thank you for the support. To view info about ranks check out &d/ranks");
                                 playUpgradeSound();
 
                                 // new member, this will only fire if its their first login as a member (redeem status) otherwise it would send when a donator downgrades
                             } else if (futureGroup == "member" && redeemedStatus == 0) {
 
-                                dName = player.getDisplayName(); // get updated display name
+                                dName = player.getName(); // get updated display name
                                 sendBroadcast("&b" + dName + "&7 has registered on our forum and has been moved to the " + rankFormats.get(futureGroup) + "&7 group, and received their rewards. To view benefits for joining (its free!) check out &d/ranks");
 
                             }
@@ -267,7 +267,7 @@ public final class RankSync extends JavaPlugin implements Listener {
                             if (redeemedStatus == 0) {
 
                                 // give key
-                                runConsole("eco give " + dName + " 5000"); // 5k eco
+                                runConsole("eco give " + dName + " 2000"); // 2k eco
                                 runConsole("cc give p sora 1 " + dName); // sora key
                                 statement.executeUpdate("UPDATE `xf_user` SET `bonus_redeemed` = '1' WHERE `xf_user`.`ncms_uuid` = '" + uuid.toString() + "';"); // set reedeemed
                                 sendPlayerMessage(player, "Thanks for registering on our forums, here is &a$5k&7 and a bonus &e[Exotic] Sora Key&7, you can use them at &d/crates&7 and &d/shop");
